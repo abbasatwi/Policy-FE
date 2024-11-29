@@ -1,0 +1,38 @@
+<div>
+  <h2>Policies</h2>
+
+  <!-- Add Policy Button -->
+  <button (click)="addPolicy()">Add Policy</button>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Name</th>
+        <th scope="col">Expiry Date</th>
+        <th scope="col">Type</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let policy of policies; let i = index">
+        <th scope="row">{{ i + 1 }}</th> <!-- Display index as row number -->
+        <td>{{ policy.name }}</td>
+        <td>{{ policy.expiryDate | date: 'shortDate' }}</td> <!-- Format expiry date -->
+        <td>{{ policy.policyTypeName }}</td> <!-- Policy Type -->
+        <td>
+          <button (click)="editPolicy(policy.id)">Edit</button>
+          <button (click)="deletePolicy(policy.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <mat-paginator
+    [length]="totalItems"
+    [pageSize]="pageSize"
+    [pageIndex]="currentPage"
+    (page)="pageChanged($event)">
+  </mat-paginator>
+</div>

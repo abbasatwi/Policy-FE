@@ -1,0 +1,93 @@
+<div class="policy-form-container">
+    <h2>{{ isUpdateMode ? 'Update Policy' : 'Add New Policy' }}</h2>
+    <form [formGroup]="policyForm" (ngSubmit)="onSubmit()">
+      <!-- Policy Name Field -->
+      <div class="form-group">
+        <label for="name">Policy Name</label>
+        <input
+          id="name"
+          formControlName="name"
+          type="text"
+          class="form-control"
+          [ngClass]="{'is-invalid': policyForm.get('name')?.touched && policyForm.get('name')?.invalid}"
+        />
+        <div *ngIf="policyForm.get('name')?.touched && policyForm.get('name')?.invalid" class="invalid-feedback">
+          <div *ngIf="policyForm.get('name')?.hasError('required')">Name is required.</div>
+          <div *ngIf="policyForm.get('name')?.hasError('maxLength')">Name can't be longer than 100 characters.</div>
+        </div>
+      </div>
+  
+      <!-- Policy Type Dropdown -->
+      <div class="form-group">
+        <label for="policyType">Policy Type</label>
+        <select
+          id="policyType"
+          formControlName="policyTypeId"
+          class="form-control"
+          [ngClass]="{'is-invalid': policyForm.get('policyTypeId')?.touched && policyForm.get('policyTypeId')?.invalid}"
+        >
+          <option *ngFor="let type of policyTypes" [value]="type.id">
+            {{ type.name }}
+          </option>
+        </select>
+        <div *ngIf="policyForm.get('policyTypeId')?.touched && policyForm.get('policyTypeId')?.invalid" class="invalid-feedback">
+          <div *ngIf="policyForm.get('policyTypeId')?.hasError('required')">Policy Type is required.</div>
+        </div>
+      </div>
+  
+      <!-- Description Field -->
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          class="form-control"
+          [ngClass]="{'is-invalid': policyForm.get('description')?.touched && policyForm.get('description')?.invalid}"
+        ></textarea>
+        <div *ngIf="policyForm.get('description')?.touched && policyForm.get('description')?.invalid" class="invalid-feedback">
+          <div *ngIf="policyForm.get('description')?.hasError('required')">Description is required.</div>
+          <div *ngIf="policyForm.get('description')?.hasError('maxLength')">Description can't be longer than 500 characters.</div>
+        </div>
+      </div>
+  
+      <!-- Effective Date Field -->
+      <div class="form-group">
+        <label for="effectiveDate">Effective Date</label>
+        <input
+          id="effectiveDate"
+          formControlName="effectiveDate"
+          type="date"
+          class="form-control"
+          [ngClass]="{'is-invalid': policyForm.get('effectiveDate')?.touched && policyForm.get('effectiveDate')?.invalid}"
+        />
+        <div *ngIf="policyForm.get('effectiveDate')?.touched && policyForm.get('effectiveDate')?.invalid" class="invalid-feedback">
+          <div *ngIf="policyForm.get('effectiveDate')?.hasError('required')">Effective Date is required.</div>
+        </div>
+      </div>
+  
+      <!-- Expiry Date Field -->
+      <div class="form-group">
+        <label for="expiryDate">Expiry Date</label>
+        <input
+          id="expiryDate"
+          formControlName="expiryDate"
+          type="date"
+          class="form-control"
+          [ngClass]="{'is-invalid': policyForm.get('expiryDate')?.touched && policyForm.get('expiryDate')?.invalid}"
+        />
+        <div *ngIf="policyForm.get('expiryDate')?.touched && policyForm.get('expiryDate')?.invalid" class="invalid-feedback">
+          <div *ngIf="policyForm.get('expiryDate')?.hasError('required')">Expiry Date is required.</div>
+        </div>
+      </div>
+  
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary" [disabled]="policyForm.invalid">
+          {{ isUpdateMode ? 'Update Policy' : 'Create Policy' }}
+        </button>
+        <div *ngIf="errorMessage" class="alert alert-danger">
+          {{ errorMessage }}
+        </div>
+        <button type="button" class="btn btn-secondary" (click)="onCancel()">Cancel</button>
+     
+  

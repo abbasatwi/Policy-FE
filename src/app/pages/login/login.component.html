@@ -1,0 +1,42 @@
+<form 
+  [formGroup]="form" 
+  class="d-flex flex-column align-items-center" 
+  (ngSubmit)="login()" 
+  novalidate>
+  
+  <div class="mb-3 w-50">
+    <label for="inputEmail4" class="form-label">Email</label>
+    <input 
+      type="email" 
+      class="form-control" 
+      id="inputEmail4" 
+      formControlName="email" 
+      (blur)="form.get('email')?.markAsTouched()" />
+    <div *ngIf="form.get('email')?.invalid && form.get('email')?.touched">
+      <small *ngIf="form.get('email')?.hasError('required')" class="text-danger">Email is required</small>
+      <small *ngIf="form.get('email')?.hasError('email')" class="text-danger">Enter a valid email</small>
+    </div>
+  </div>
+
+  <div class="mb-3 w-50">
+    <label for="inputPassword4" class="form-label">Password</label>
+    <input 
+      type="password" 
+      class="form-control" 
+      id="inputPassword4" 
+      formControlName="password" 
+      (blur)="form.get('password')?.markAsTouched()" />
+    <div *ngIf="form.get('password')?.invalid && form.get('password')?.touched">
+      <small *ngIf="form.get('password')?.hasError('required')" class="text-danger">Password is required</small>
+    </div>
+  </div>
+
+  <div class="w-50">
+    <button 
+      type="submit" 
+      class="btn btn-primary w-100" 
+      [disabled]="form.invalid">
+      Sign in
+    </button>
+  </div>
+</form>
