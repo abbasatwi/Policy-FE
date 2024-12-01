@@ -10,3 +10,12 @@ export const passwordMatchValidator: ValidatorFn = (
     }
     return null;
   };
+
+export const passwordStrengthValidator: ValidatorFn =( control : AbstractControl,): ValidationErrors | null =>{
+  const password = control.value;
+  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
+  if (password && !regex.test(password)) {
+    return { passwordStrength: true };
+  }
+  return null;
+}

@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { UserDetails } from '../interfaces/user-details';
 import { RegisterRequest } from '../interfaces/register-request';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +20,8 @@ export class AuthService {
   private loggedInSubject = new BehaviorSubject<boolean>(false);
   loggedIn$ = this.loggedInSubject.asObservable();
 
-  constructor(@Inject(PLATFORM_ID) private platformId: object, private http: HttpClient) {
-    // Check if the code is running in the browser
+  constructor(@Inject(PLATFORM_ID) private platformId: object, private http: HttpClient, private router:Router) {
+    // Check if the code is running in the browser in order to set the token into the local storage
     this.isBrowser = isPlatformBrowser(this.platformId);
     if (this.isLoggedIn()) {
       this.loggedInSubject.next(true);
@@ -32,6 +33,7 @@ export class AuthService {
       .post<AuthResponse>(`${this.apiUrl}account/login`, data)
       .pipe(
         map((response) => {
+          // Check if the code is running in the browser in order to set the token into the local storage
           if (response.isSuccess && this.isBrowser) {
             localStorage.setItem(this.tokenKey, response.token);
             this.loggedInSubject.next(true);
@@ -46,9 +48,8 @@ export class AuthService {
       return this.http.post<AuthResponse>(`${this.apiUrl}account/register`, data).pipe(
         map((response) => {
           if (response.isSuccess && this.isBrowser) {
-            // Optionally handle any logic post-registration, e.g., auto-login
-            localStorage.setItem(this.tokenKey, response.token);
-            this.loggedInSubject.next(true);
+            // Optionally handle any logic post-registration
+            this.router.navigate(['/login']);
           }
           return response;
         })
@@ -96,8 +97,6 @@ export class AuthService {
       this.loggedInSubject.next(false);
     }
   };
-
-
 
    public getToken = (): string | null =>
     this.isBrowser ? localStorage.getItem(this.tokenKey) || '' : null;

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { passwordMatchValidator } from '../../Validators/passwordMatchValidator';
+import { passwordMatchValidator, passwordStrengthValidator } from '../../Validators/passwordMatchValidator';
 import { ReactiveFormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common';
 import { RegisterRequest } from '../../interfaces/register-request';
@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit {
     this.registerForm = new FormGroup({
       fullName: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+      password: new FormControl('', [Validators.required,passwordStrengthValidator]),
       confirmPassword: new FormControl('', [Validators.required]),
     }, { validators: passwordMatchValidator });
   }

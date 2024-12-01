@@ -33,19 +33,24 @@ export class ListPoliciesComponent implements OnInit {
 
   loadPolicies(page: number, size: number) {
     this._policyService.getPolicies(page + 1, size).subscribe({
-      next: (response) => { 
-        this.policies = response
+      next: (response) => {
+        this.policies = response.policies;  // Extract policies from the response
+        this.totalItems = response.totalItems;  // Set totalItems for pagination
       },
       error: (error) => {
         console.error('Error fetching policies:', error);
       }
     });
   }
+  
 
   pageChanged(event: PageEvent) {
+    console.log('Page changed:', event);
     this.currentPage = event.pageIndex;
     this.loadPolicies(this.currentPage, this.pageSize);
   }
+  
+  
 
   editPolicy(id: number) {
     this._router.navigate(['/policies/add-update', id]); // Navigate to the add-update component

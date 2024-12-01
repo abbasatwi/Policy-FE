@@ -21,10 +21,10 @@
       <input type="password" class="form-control" id="password" formControlName="password" />
       <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
         <small *ngIf="registerForm.get('password')?.hasError('required')" class="text-danger">
-          Password is required
+          Password is required  
         </small>
-        <small *ngIf="registerForm.get('password')?.hasError('minlength')" class="text-danger">
-          Password must be at least 6 characters long.
+        <small *ngIf="registerForm.get('password')?.hasError('passwordStrength')" class="text-danger">
+          Password must be at least 6 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.
         </small>
       </div>
     </div>
